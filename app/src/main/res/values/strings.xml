@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Jokes</string>
+    <string name="str_share">Share</string>
+    <string name="str_like">Like</string>
+</resources>

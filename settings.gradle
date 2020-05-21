@@ -1,0 +1,3 @@
+rootProject.name='Jokes'
+include ':app'
+include ':data'
