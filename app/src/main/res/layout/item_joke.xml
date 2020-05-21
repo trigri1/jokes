@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@android:color/white"
-    android:padding="10dp"
     android:paddingBottom="10dp"
     app:elevation="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_joke"

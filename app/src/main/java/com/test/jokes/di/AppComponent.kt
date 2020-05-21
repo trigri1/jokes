@@ -1,10 +1,7 @@
 package com.test.jokes.di
 
 import com.test.jokes.JokesApp
-import com.test.jokes.di.module.ActivityModule
-import com.test.jokes.di.module.AppModule
-import com.test.jokes.di.module.RepositoryModule
-import com.test.jokes.di.module.ViewModelModule
+import com.test.jokes.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -18,6 +15,7 @@ import javax.inject.Singleton
         ActivityModule::class,
         ViewModelModule::class,
         AppModule::class,
+        FragmentModule::class,
         RepositoryModule::class]
 )
 interface AppComponent : AndroidInjector<JokesApp> {

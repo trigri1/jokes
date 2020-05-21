@@ -14,6 +14,7 @@ ext {
     lifecycleVersion = "2.2.0"
     recyclerViewVersion = "1.1.0"
     cardviewVersion = "1.0.0"
+    nav_version = "2.2.2"
     //kotlin
     kotlin_version = '1.3.71'
     //dagger
@@ -68,6 +69,8 @@ ext {
                     kotlin                : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
                     appCompat             : "androidx.appcompat:appcompat:$appCompatVersion",
                     cardview              : "androidx.cardview:cardview:$cardviewVersion",
+                    navigationFragment    : "androidx.navigation:navigation-fragment-ktx:$nav_version",
+                    navigationUiKtx       : "androidx.navigation:navigation-ui-ktx:$nav_version",
                     fragmentKtx           : 'androidx.fragment:fragment-ktx:1.1.0',
                     coreKtx               : "androidx.core:core-ktx:$coreKtxVersion",
                     recyclerView          : "androidx.recyclerview:recyclerview:$recyclerViewVersion",

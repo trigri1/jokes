@@ -3,10 +3,12 @@ package com.test.jokes.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
+import kotlinx.android.synthetic.main.item_joke.view.*
 
 
 class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
@@ -45,6 +47,7 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
 
         private fun setupView(model: Joke) {
             with(itemView) {
+                tv_joke.text = model.joke
             }
         }
 

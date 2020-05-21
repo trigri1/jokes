@@ -1,13 +1,16 @@
 package com.test.jokes.ui.main
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.test.data.jokes.models.mapped.JokesModel
+import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseActivity
 import com.test.jokes.utils.observe
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -16,7 +19,9 @@ class MainActivity : BaseActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MainViewModel
 
-    private val currencyAdapter = JokesAdapter()
+    private val navController by lazy {
+        Navigation.findNavController(this, R.id.nav_host_fragment)
+    }
 
     override val layoutId: Int
         get() = R.layout.activity_main
@@ -24,58 +29,55 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getViewModel()
-        setListeners()
         observerViewModel()
-//        rc_currency_rates.adapter = currencyAdapter
-//        rc_currency_rates.itemAnimator = DefaultItemAnimator()
+        setupDrawer()
     }
 
     private fun observerViewModel() {
         with(viewModel) {
-            observe(jokesItem, ::onJokesItem)
-            observe(loading, ::onLoading)
-            observe(error, ::onError)
+            observe(navigation, ::onNavigation)
         }
     }
 
-    private fun setListeners() {
-        currencyAdapter.setListener(object : JokesAdapter.Listener {
-            override fun onAmountEntered(amount: Float) {
+    private fun onNavigation(navigation: MainViewModel.Navigation?) {
+        when (navigation) {
 
+        }
+    }
+
+    private fun setupDrawer() {
+        setSupportActionBar(toolbar)
+        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
+        nav_view.setupWithNavController(navController)
+
+        nav_view.setNavigationItemSelectedListener { menuItem ->
+            drawer_layout.closeDrawers()
+            menuItem.isChecked = true
+            when (menuItem.itemId) {
+                R.id.menu_fragment_main -> {
+                    navController.navigate(R.id.mainFragment)
+                }
+                R.id.menu_fragment_my_jokes -> {
+                }
+                R.id.menu_fragment_setting -> {
+                }
             }
-        })
-    }
 
-
-    private fun onJokesItem(jokesRateModel: JokesModel?) {
-        jokesRateModel?.let {
-            currencyAdapter.updateList(it.value)
+            true
         }
-    }
 
-
-    private fun onError(error: String?) {
-        Toast.makeText(this, error.orEmpty(), Toast.LENGTH_SHORT).show()
-    }
-
-    private fun onLoading(loading: Boolean?) {
-        if (loading == true) {
-            showProgressBar()
-        } else {
-            hideProgressBar()
-        }
-    }
-
-    private fun showProgressBar() {
-//        progress_circular.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar() {
-//        progress_circular?.visibility = View.GONE
     }
 
     private fun getViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+    }
+
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            return super.onBackPressed()
+        }
     }
 }
 
