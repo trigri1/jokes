@@ -9,8 +9,15 @@ import javax.inject.Inject
 class MyJokesViewModel @Inject constructor(schedulerProvider: SchedulerProvider) :
     BaseViewModel(schedulerProvider) {
 
-    private val _navigation = MutableLiveData<String>()
-    val navigation: LiveData<String> = _navigation
+    private val _navigation = MutableLiveData<Navigation>()
+    val navigation: LiveData<Navigation> = _navigation
 
+    fun onAddJokeClicked() {
+        _navigation.postValue(Navigation.AddJoke)
+    }
+
+    sealed class Navigation {
+        object AddJoke : Navigation()
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.test.jokes.ui.settins
+package com.test.jokes.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

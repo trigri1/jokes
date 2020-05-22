@@ -1,4 +1,4 @@
-package com.test.jokes.ui.settins
+package com.test.jokes.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

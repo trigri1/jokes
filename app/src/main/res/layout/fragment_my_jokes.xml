@@ -36,5 +36,5 @@
         android:contentDescription="@string/add_joke"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,10 @@ import android.content.Context
 import android.view.View
 import android.view.View.*
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 
 
 fun <T> MutableList<T>.clearAndAddAll(list: List<T>) {
