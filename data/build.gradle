@@ -18,6 +18,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
 
     buildTypes {
@@ -37,10 +43,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     def extraProperty = rootProject.ext
     def dataImpl = extraProperty.dataDependenciesImplementation
+    def dataApi = extraProperty.dataDependenciesApi
     def dataKapt = extraProperty.dataDependenciesKapt
     def dataTest = extraProperty.dataDependenciesTest
 
     implementation dataImpl
+    api dataApi
     kapt dataKapt
     testImplementation dataTest
 }

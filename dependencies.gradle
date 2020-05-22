@@ -15,6 +15,8 @@ ext {
     recyclerViewVersion = "1.1.0"
     cardviewVersion = "1.0.0"
     nav_version = "2.2.2"
+    room_version = "2.2.5"
+
     //kotlin
     kotlin_version = '1.3.71'
     //dagger
@@ -51,11 +53,16 @@ ext {
                     retrofit              : "com.squareup.retrofit2:retrofit:$retrofitVersion",
                     rxRetrofitAdapter     : "com.squareup.retrofit2:adapter-rxjava2:$rxRetrofitAdapterVersion",
                     moshiRetrofitConverter: "com.squareup.retrofit2:converter-moshi:$rmoshiRetrofitVersion",
-                    retrofitLogging       : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+                    retrofitLogging       : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+            ],
+            apiDep        : [
+                    roomRuntime: "androidx.room:room-runtime:$room_version",
+                    roomRxjava2: "androidx.room:room-rxjava2:$room_version"
             ],
             kaptDep       : [
                     moshiCompiler  : "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion",
-                    dagger2Compiler: "com.google.dagger:dagger-compiler:$dagger2Version"
+                    dagger2Compiler: "com.google.dagger:dagger-compiler:$dagger2Version",
+                    roomCompiler   : "androidx.room:room-compiler:$room_version"
             ],
             dataTest      : [
                     JUnit        : "junit:junit:$jUnitVersion",
@@ -103,10 +110,12 @@ ext {
     ]
 
     dataDependenciesImplementation = dataDependencies["implementation"].values()
+    dataDependenciesApi = dataDependencies["apiDep"].values()
     dataDependenciesKapt = dataDependencies["kaptDep"].values()
     dataDependenciesTest = dataDependencies["dataTest"].values()
 
     appDependenciesImplementation = appDependencies["implementation"].values()
+
     appDependenciesKapt = appDependencies["kaptDep"].values()
     appDependenciesTest = appDependencies["appTest"].values()
 }

@@ -37,7 +37,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(AddJokeViewModel::class)
-    abstract fun bindMyJokesViewModel(addJokeViewModel: AddJokeViewModel): ViewModel
+    abstract fun bindAddJokesViewModel(addJokeViewModel: AddJokeViewModel): ViewModel
 
     @Binds
     @IntoMap

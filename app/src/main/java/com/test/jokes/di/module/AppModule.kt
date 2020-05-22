@@ -1,9 +1,11 @@
 package com.test.jokes.di.module
 
 
+import android.content.Context
 import com.test.data.jokes.client.ApiClient
 import com.test.data.rx.AppSchedulerProvider
 import com.test.data.rx.SchedulerProvider
+import com.test.jokes.JokesApp
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -18,6 +20,12 @@ const val BASE_URL = "https://api.icndb.com/"
 
 @Module
 class AppModule {
+
+    @Singleton
+    @Provides
+    fun provideContext(context: JokesApp): Context {
+        return context
+    }
 
     @Provides
     @Singleton

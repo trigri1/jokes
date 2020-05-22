@@ -1,5 +1,6 @@
 package com.test.jokes.di
 
+import com.test.jokes.di.module.DatabaseModule
 import com.test.jokes.JokesApp
 import com.test.jokes.di.module.*
 import dagger.BindsInstance
@@ -12,11 +13,12 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
-        ActivityModule::class,
-        ViewModelModule::class,
         AppModule::class,
         FragmentModule::class,
-        RepositoryModule::class]
+        ActivityModule::class,
+        ViewModelModule::class,
+        RepositoryModule::class,
+        DatabaseModule::class]
 )
 interface AppComponent : AndroidInjector<JokesApp> {
 
