@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menu_fragment_main"
-        android:title="Home" />
-    <item
-        android:id="@+id/menu_fragment_my_jokes"
-        android:title="MyJokes" />
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_fragment_main"
+            android:checked="true"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/menu_fragment_my_jokes"
+            android:title="@string/my_jokes" />
 
-    <item
-        android:id="@+id/menu_fragment_setting"
-        android:title="Settings" />
+    </group>
 
+    <group
+        android:id="@+id/menu_settins"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/menu_fragment_setting"
+            android:title="@string/settings" />
+    </group>
 </menu>

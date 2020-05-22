@@ -1,6 +1,7 @@
 package com.test.jokes.ui.main
 
 import android.os.Bundle
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +13,7 @@ import com.test.jokes.ui.base.BaseActivity
 import com.test.jokes.utils.observe
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+
 
 class MainActivity : BaseActivity() {
 
@@ -46,7 +48,17 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupDrawer() {
+        setActionBar()
+        setNavigationView()
+        setupDrawerToggle()
+    }
+
+    private fun setActionBar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    private fun setNavigationView() {
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
         nav_view.setupWithNavController(navController)
 
@@ -54,18 +66,24 @@ class MainActivity : BaseActivity() {
             drawer_layout.closeDrawers()
             menuItem.isChecked = true
             when (menuItem.itemId) {
-                R.id.menu_fragment_main -> {
-                    navController.navigate(R.id.mainFragment)
-                }
-                R.id.menu_fragment_my_jokes -> {
-                }
-                R.id.menu_fragment_setting -> {
-                }
+                R.id.menu_fragment_main -> navController.navigate(R.id.mainFragment)
+                R.id.menu_fragment_my_jokes -> navController.navigate(R.id.myJokesFragment)
+                R.id.menu_fragment_setting -> navController.navigate(R.id.settingsFragment)
             }
 
             true
         }
+    }
 
+    private fun setupDrawerToggle() {
+        val mDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawer_layout,
+            toolbar,
+            R.string.app_name,
+            R.string.app_name
+        )
+        mDrawerToggle.syncState()
     }
 
     private fun getViewModel() {

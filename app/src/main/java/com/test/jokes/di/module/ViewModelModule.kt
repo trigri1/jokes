@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.test.jokes.ui.main.MainFragViewModel
 import com.test.jokes.ui.main.MainViewModel
+import com.test.jokes.ui.myjokes.MyJokesViewModel
+import com.test.jokes.ui.settins.SettingsViewModel
 import com.test.jokes.utils.ViewModelFactory
 import com.test.jokes.utils.ViewModelKey
 import dagger.Binds
@@ -16,7 +18,6 @@ abstract class ViewModelModule {
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-
     @Binds
     @IntoMap
     @ViewModelKey(MainFragViewModel::class)
@@ -26,4 +27,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMyJokesViewModel(myJokesViewModel: MyJokesViewModel): MyJokesViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindSettingsViewModel(settingsViewModel: SettingsViewModel): SettingsViewModel
 }

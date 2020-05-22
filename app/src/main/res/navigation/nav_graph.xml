@@ -10,4 +10,14 @@
         android:name="com.test.jokes.ui.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/myJokesFragment"
+        android:name="com.test.jokes.ui.myjokes.MyJokesFragment"
+        android:label="MyJokesFragment"
+        tools:layout="@layout/fragment_my_jokes" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.test.jokes.ui.settins.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settins" />
 </navigation>
