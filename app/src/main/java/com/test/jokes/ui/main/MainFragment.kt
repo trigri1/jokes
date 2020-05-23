@@ -22,7 +22,7 @@ class MainFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MainFragViewModel
 
-    private val currencyAdapter = JokesAdapter()
+    private val jokesAdapter = JokesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +40,7 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        rc_jokes.adapter = currencyAdapter
+        rc_jokes.adapter = jokesAdapter
         rc_jokes.itemAnimator = DefaultItemAnimator()
     }
 
@@ -54,7 +54,7 @@ class MainFragment : BaseFragment() {
 
     private fun onJokesItem(jokesRateModel: JokesModel?) {
         jokesRateModel?.let {
-            currencyAdapter.updateList(it.value)
+            jokesAdapter.updateList(it.value)
         }
     }
 
@@ -62,7 +62,7 @@ class MainFragment : BaseFragment() {
     private fun onLoading(loading: Boolean?) = progress_circular.show(loading == true)
 
     private fun setListeners() {
-        currencyAdapter.setListener(object : JokesAdapter.Listener {
+        jokesAdapter.setListener(object : JokesAdapter.Listener {
             override fun onAmountEntered(amount: Float) {
 
             }

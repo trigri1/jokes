@@ -1,4 +1,4 @@
-package com.test.jokes.ui.main
+package com.test.jokes.ui.myjokes
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,35 +7,36 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
-import kotlinx.android.synthetic.main.item_joke.view.*
+import com.test.jokes.ui.main.JokesDiffCallback
+import kotlinx.android.synthetic.main.item_user_joke.view.*
 
 
-class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
+class UserJokesAdapter : RecyclerView.Adapter<UserJokesAdapter.ViewHolder>() {
 
-    private var jokesItemList = listOf<Joke>()
+    private var jokesList = listOf<Joke>()
     private var listener: Listener? = null
 
     fun updateList(list: List<Joke>) {
-        val diffResult = DiffUtil.calculateDiff(JokesDiffCallback(jokesItemList, list))
+        val diffResult = DiffUtil.calculateDiff(JokesDiffCallback(jokesList, list))
         diffResult.dispatchUpdatesTo(this)
-        jokesItemList = list
+        jokesList = list
     }
 
     fun setListener(listener: Listener) {
         this.listener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokesAdapter.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserJokesAdapter.ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.item_joke, parent, false
+                R.layout.item_user_joke, parent, false
             )
         )
 
-    override fun onBindViewHolder(holder: JokesAdapter.ViewHolder, position: Int) =
-        holder.bindData(jokesItemList[position])
+    override fun onBindViewHolder(holder: UserJokesAdapter.ViewHolder, position: Int) =
+        holder.bindData(jokesList[position])
 
-    override fun getItemCount(): Int = jokesItemList.size
+    override fun getItemCount(): Int = jokesList.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -51,10 +52,13 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
         }
 
         private fun setListeners() {
+            itemView.tv_delete.setOnClickListener {
+                listener?.onDeleteClicked(jokesList[adapterPosition])
+            }
         }
     }
 
     interface Listener {
-        fun onAmountEntered(amount: Float = 1f)
+        fun onDeleteClicked(joke: Joke)
     }
 }

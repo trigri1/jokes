@@ -8,6 +8,7 @@ import com.test.data.local.db.AppDataBase
 import com.test.data.local.db.entities.UserJokeEntity
 import com.test.data.local.prefs.PrefsHelper
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,12 +30,9 @@ class JokesRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getUserJokes(): Single<List<Joke>> {
+    override fun getUserJokes(): Observable<List<Joke>> {
         return database.getUserJokesDao().getAllUserJokes()
             .map {
-                if (it.isNullOrEmpty()) {
-                    throw  NoRecordException("No joke is added yet")
-                }
                 it.map { userJoke ->
                     userJoke.map()
                 }
@@ -45,5 +43,7 @@ class JokesRepositoryImpl @Inject constructor(
         return database.getUserJokesDao().insert(joke)
     }
 
-    class NoRecordException(msg: String) : Exception(msg)
+    override fun deleteJokes(joke: UserJokeEntity): Completable {
+        return database.getUserJokesDao().delete(joke)
+    }
 }

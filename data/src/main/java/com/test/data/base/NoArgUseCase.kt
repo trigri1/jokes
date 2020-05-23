@@ -1,7 +1,7 @@
 package com.test.data.base
 
-import io.reactivex.Single
+import io.reactivex.Observable
 
 interface NoArgUseCase<R : MappedModel> {
-    fun get(): Single<R>
+    fun get(): Observable<R>
 }

@@ -8,13 +8,13 @@ import androidx.room.Query
 import com.test.data.local.db.entities.USER_JOKES_ENTITY
 import com.test.data.local.db.entities.UserJokeEntity
 import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.Observable
 
 @Dao
 interface UserJokesDao {
 
     @Query("SELECT * FROM $USER_JOKES_ENTITY")
-    fun getAllUserJokes(): Single<List<UserJokeEntity>>
+    fun getAllUserJokes(): Observable<List<UserJokeEntity>>
 
     @Insert(onConflict = REPLACE)
     fun insert(jokeEntity: UserJokeEntity): Completable

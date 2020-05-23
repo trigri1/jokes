@@ -3,7 +3,7 @@ package com.test.jokes.ui.myjokes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.data.jokes.models.mapped.Joke
-import com.test.data.jokes.repository.JokesRepositoryImpl.NoRecordException
+import com.test.data.jokes.usecase.DeleteJokeUseCase
 import com.test.data.jokes.usecase.GetUserJokesUseCase
 import com.test.data.rx.SchedulerProvider
 import com.test.jokes.ui.base.BaseViewModel
@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 class MyJokesViewModel @Inject constructor(
     private val getUserJokesUseCase: GetUserJokesUseCase,
+    private val deleteJokeUseCase: DeleteJokeUseCase,
     schedulerProvider: SchedulerProvider
 ) : BaseViewModel(schedulerProvider) {
 
@@ -31,13 +32,21 @@ class MyJokesViewModel @Inject constructor(
         _navigation.postValue(Navigation.AddJoke)
     }
 
+    fun onDeleteJokeClicked(joke: Joke) {
+        deleteJokeUseCase.complete(DeleteJokeUseCase.Args(joke.id, joke.joke))
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribe()
+            .addToDisposable()
+    }
+
     private fun getUserJokesList() {
         getUserJokesUseCase.get()
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe(
                 {
-                    _userJokes.postValue(it.list)
+                    handleResponse(it.list)
                 },
                 { throwable ->
                     handleError(throwable)
@@ -45,13 +54,12 @@ class MyJokesViewModel @Inject constructor(
 
     }
 
+    private fun handleResponse(list: List<Joke>) {
+        _userJokes.postValue(list)
+    }
+
     private fun handleError(throwable: Throwable) {
-        val errorMsg = if (throwable is NoRecordException) {
-            throwable.message
-        } else {
-            getError(throwable)
-        }
-        _error.postValue(errorMsg)
+        _error.postValue(getError(throwable))
     }
 
     sealed class Navigation {

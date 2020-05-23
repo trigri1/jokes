@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
+import com.test.jokes.ui.myjokes.addjoke.AddJokeViewModel.Navigation
+import com.test.jokes.utils.hideKeyboard
 import com.test.jokes.utils.observe
 import com.test.jokes.utils.toast
 import kotlinx.android.synthetic.main.fragment_add_joke.*
@@ -34,11 +37,23 @@ class AddJokeFragment : BaseFragment() {
         tv_save.setOnClickListener {
             viewModel.onSaveJokeClicked(et_new_jokes.text.toString())
         }
+
+        tv_cancel.setOnClickListener {
+            viewModel.onCancelClicked()
+        }
     }
 
     private fun observerViewModel() {
         with(viewModel) {
+            observe(navigation, ::onNavigation)
             observe(error, ::onError)
+        }
+    }
+
+    private fun onNavigation(navigation: Navigation?) {
+        if (navigation == Navigation.MyJokes) {
+            activity?.hideKeyboard()
+            findNavController().navigate(R.id.myJokesFragment)
         }
     }
 

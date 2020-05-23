@@ -1,13 +1,11 @@
 package com.test.jokes.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.View.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 
 
 fun <T> MutableList<T>.clearAndAddAll(list: List<T>) {
@@ -37,4 +35,9 @@ fun View.show(show: Boolean) {
     } else {
         gone()
     }
+}
+
+fun Activity.hideKeyboard() {
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
 }

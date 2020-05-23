@@ -3,7 +3,7 @@ package com.test.jokes.ui.main
 import androidx.recyclerview.widget.DiffUtil
 import com.test.data.jokes.models.mapped.Joke
 
-class MainDiffCallback(
+class JokesDiffCallback(
     private val oldList: List<Joke>,
     private val newList: List<Joke>
 ) : DiffUtil.Callback() {

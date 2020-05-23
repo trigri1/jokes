@@ -15,6 +15,9 @@ class AddJokeViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
+    private val _navigation = MutableLiveData<Navigation>()
+    val navigation: LiveData<Navigation> = _navigation
+
     fun onSaveJokeClicked(joke: String?) {
         if (joke.isNullOrEmpty()) {
             _error.postValue("Joke should not be empty")
@@ -24,9 +27,17 @@ class AddJokeViewModel @Inject constructor(
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe {
-
+                    _navigation.postValue(Navigation.MyJokes)
                 }.addToDisposable()
         }
+    }
+
+    fun onCancelClicked() {
+        _navigation.postValue(Navigation.MyJokes)
+    }
+
+    sealed class Navigation {
+        object MyJokes : Navigation()
     }
 
 }

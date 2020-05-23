@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
-import com.test.jokes.ui.main.JokesAdapter
 import com.test.jokes.ui.myjokes.MyJokesViewModel.Navigation
 import com.test.jokes.utils.observe
 import com.test.jokes.utils.toast
@@ -24,7 +23,7 @@ class MyJokesFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MyJokesViewModel
 
-    private val currencyAdapter = JokesAdapter()
+    private val userJokesAdapter = UserJokesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +41,19 @@ class MyJokesFragment : BaseFragment() {
         setListener()
     }
 
+
+    private fun setListener() {
+        fab_add_joke.setOnClickListener {
+            viewModel.onAddJokeClicked()
+        }
+
+        userJokesAdapter.setListener(object : UserJokesAdapter.Listener {
+            override fun onDeleteClicked(joke: Joke) {
+                viewModel.onDeleteJokeClicked(joke)
+            }
+        })
+    }
+
     private fun observerViewModel() {
         with(viewModel) {
             observe(userJokes, ::onJokesList)
@@ -51,13 +63,13 @@ class MyJokesFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        rc_jokes.adapter = currencyAdapter
+        rc_jokes.adapter = userJokesAdapter
         rc_jokes.itemAnimator = DefaultItemAnimator()
     }
 
     private fun onJokesList(list: List<Joke>?) {
         list?.let {
-            currencyAdapter.updateList(it)
+            userJokesAdapter.updateList(it)
         }
     }
 
@@ -66,12 +78,6 @@ class MyJokesFragment : BaseFragment() {
     private fun onNavigation(navigation: Navigation?) {
         if (navigation == Navigation.AddJoke) {
             findNavController().navigate(R.id.addJokeFragment)
-        }
-    }
-
-    private fun setListener() {
-        fab_add_joke.setOnClickListener {
-            viewModel.onAddJokeClicked()
         }
     }
 
