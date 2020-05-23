@@ -1,5 +1,6 @@
-package com.test.data.base
+package com.test.data.base.usecase
 
+import com.test.data.base.model.MappedModel
 import io.reactivex.Single
 
 interface UseCase<A : UseCase.Args, R : MappedModel> {

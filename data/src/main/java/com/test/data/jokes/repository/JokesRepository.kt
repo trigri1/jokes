@@ -10,6 +10,7 @@ import io.reactivex.Single
 interface JokesRepository {
     fun getJokes(firstName: String? = null, lastName: String? = null): Single<JokesModel>
     fun getUserJokes(): Observable<List<Joke>>
-    fun addJokes(joke: UserJokeEntity): Completable
-    fun deleteJokes(joke: UserJokeEntity): Completable
+    fun addJoke(joke: UserJokeEntity): Completable
+    fun deleteJoke(joke: UserJokeEntity): Completable
+    fun deleteJokeById(id: Long): Completable
 }

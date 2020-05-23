@@ -21,4 +21,7 @@ interface UserJokesDao {
 
     @Delete
     fun delete(jokeEntity: UserJokeEntity): Completable
+
+    @Query("DELETE FROM $USER_JOKES_ENTITY WHERE liked_id == :likedId")
+    fun deleteById(likedId: Long): Completable
 }

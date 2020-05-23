@@ -94,7 +94,8 @@ ext {
                     retrofit              : "com.squareup.retrofit2:retrofit:$retrofitVersion",
                     rxRetrofitAdapter     : "com.squareup.retrofit2:adapter-rxjava2:$rxRetrofitAdapterVersion",
                     moshiRetrofitConverter: "com.squareup.retrofit2:converter-moshi:$rmoshiRetrofitVersion",
-                    retrofitLogging       : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+                    retrofitLogging       : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+                    shakeDetect           : 'com.squareup:seismic:1.0.2'
             ],
             kaptDep       : [
                     moshiCompiler         : "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion",

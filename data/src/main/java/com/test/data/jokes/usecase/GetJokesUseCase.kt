@@ -1,6 +1,6 @@
 package com.test.data.jokes.usecase
 
-import com.test.data.base.UseCase
+import com.test.data.base.usecase.UseCase
 import com.test.data.jokes.models.mapped.JokesModel
 import com.test.data.jokes.repository.JokesRepository
 import io.reactivex.Single

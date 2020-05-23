@@ -2,8 +2,7 @@
     <string name="app_name">Jokes</string>
     <string name="str_share">Share</string>
     <string name="str_like">Like</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
+    <string name="str_un_like">UnLike</string>
     <string name="add_joke">Add Joke</string>
     <string name="home">Home</string>
     <string name="my_jokes">My Jokes</string>
@@ -11,4 +10,7 @@
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="delete">Delete</string>
+    <string name="first_name">Character First Name</string>
+    <string name="last_name">Character Last Name</string>
+    <string name="offline_mode">Offline Mode</string>
 </resources>

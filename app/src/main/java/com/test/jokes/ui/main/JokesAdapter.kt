@@ -45,16 +45,31 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
         }
 
         private fun setupView(model: Joke) {
-            with(itemView) {
-                tv_joke.text = model.joke
-            }
+            itemView.tv_joke.text = model.joke
         }
 
         private fun setListeners() {
+            with(itemView) {
+                tv_like.setOnClickListener {
+                    if (tv_like.text == context.getString(R.string.str_like)) {
+                        tv_like.text = context.getString(R.string.str_un_like)
+                        listener?.onLikeClicked(jokesItemList[adapterPosition])
+                    } else {
+                        tv_like.text = context.getString(R.string.str_like)
+                        listener?.onUnLikeClicked(jokesItemList[adapterPosition].id)
+                    }
+                }
+
+                tv_share.setOnClickListener {
+                    listener?.onShareClicked(jokesItemList[adapterPosition].joke)
+                }
+            }
         }
     }
 
     interface Listener {
-        fun onAmountEntered(amount: Float = 1f)
+        fun onLikeClicked(joke: Joke)
+        fun onUnLikeClicked(id: Long)
+        fun onShareClicked(joke: String)
     }
 }

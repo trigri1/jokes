@@ -1,4 +1,4 @@
-package com.test.data.base
+package com.test.data.base.usecase
 
 import io.reactivex.Completable
 

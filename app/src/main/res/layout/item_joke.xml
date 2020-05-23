@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_joke"
@@ -27,14 +27,13 @@
             android:id="@+id/tv_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="252dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
             android:text="@string/str_share"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_joke"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintEnd_toStartOf="@+id/tv_like"
+            app:layout_constraintTop_toBottomOf="@id/tv_joke" />
 
         <TextView
             android:id="@+id/tv_like"
@@ -43,8 +42,6 @@
             android:text="@string/str_like"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.741"
-            app:layout_constraintStart_toEndOf="@+id/tv_share" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

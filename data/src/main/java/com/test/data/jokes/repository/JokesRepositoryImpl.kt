@@ -39,11 +39,15 @@ class JokesRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun addJokes(joke: UserJokeEntity): Completable {
+    override fun addJoke(joke: UserJokeEntity): Completable {
         return database.getUserJokesDao().insert(joke)
     }
 
-    override fun deleteJokes(joke: UserJokeEntity): Completable {
+    override fun deleteJoke(joke: UserJokeEntity): Completable {
         return database.getUserJokesDao().delete(joke)
+    }
+
+    override fun deleteJokeById(id: Long): Completable {
+        return database.getUserJokesDao().deleteById(id)
     }
 }

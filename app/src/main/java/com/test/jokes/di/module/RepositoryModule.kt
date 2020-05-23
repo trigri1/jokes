@@ -3,6 +3,8 @@ package com.test.jokes.di.module
 
 import com.test.data.jokes.repository.JokesRepository
 import com.test.data.jokes.repository.JokesRepositoryImpl
+import com.test.data.offline.repository.OfflineRepository
+import com.test.data.offline.repository.OfflineRepositoryImpl
 import dagger.Binds
 import dagger.Module
 
@@ -10,5 +12,8 @@ import dagger.Module
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindCurrencyRepository(repository: JokesRepositoryImpl): JokesRepository
+    abstract fun bindJokesRepository(repository: JokesRepositoryImpl): JokesRepository
+
+    @Binds
+    abstract fun bindOfflineRepository(offlineRepository: OfflineRepositoryImpl): OfflineRepository
 }

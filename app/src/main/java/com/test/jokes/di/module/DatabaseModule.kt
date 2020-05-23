@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.test.data.local.db.AppDataBase
 import com.test.data.local.prefs.PrefsHelper
-import com.test.data.local.prefs.PrefsHelperImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -24,8 +23,8 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun providePrefHelper(prefsHelper: PrefsHelperImpl): PrefsHelper {
-        return prefsHelper
+    fun providePrefHelper(sharedPreferences: SharedPreferences): PrefsHelper {
+        return PrefsHelper(sharedPreferences)
     }
 
     @Singleton
