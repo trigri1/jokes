@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
+import com.test.jokes.utils.observe
+import com.test.jokes.utils.toast
+import kotlinx.android.synthetic.main.fragment_add_joke.*
 import javax.inject.Inject
 
 class AddJokeFragment : BaseFragment() {
@@ -24,14 +27,23 @@ class AddJokeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getViewModel()
         observerViewModel()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        tv_save.setOnClickListener {
+            viewModel.onSaveJokeClicked(et_new_jokes.text.toString())
+        }
     }
 
     private fun observerViewModel() {
         with(viewModel) {
-//            observe(navigation, ::onNavigation)
+            observe(error, ::onError)
         }
     }
-    
+
+    private fun onError(error: String?) = requireContext().toast(error.orEmpty())
+
     private fun getViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddJokeViewModel::class.java)
     }

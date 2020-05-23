@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
+import com.test.jokes.ui.main.JokesAdapter
 import com.test.jokes.ui.myjokes.MyJokesViewModel.Navigation
 import com.test.jokes.utils.observe
+import com.test.jokes.utils.toast
 import kotlinx.android.synthetic.main.fragment_my_jokes.*
 import javax.inject.Inject
 
@@ -19,6 +23,8 @@ class MyJokesFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MyJokesViewModel
+
+    private val currencyAdapter = JokesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +36,7 @@ class MyJokesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
         getViewModel()
         observerViewModel()
         setListener()
@@ -37,9 +44,24 @@ class MyJokesFragment : BaseFragment() {
 
     private fun observerViewModel() {
         with(viewModel) {
+            observe(userJokes, ::onJokesList)
+            observe(error, ::onError)
             observe(navigation, ::onNavigation)
         }
     }
+
+    private fun setupView() {
+        rc_jokes.adapter = currencyAdapter
+        rc_jokes.itemAnimator = DefaultItemAnimator()
+    }
+
+    private fun onJokesList(list: List<Joke>?) {
+        list?.let {
+            currencyAdapter.updateList(it)
+        }
+    }
+
+    private fun onError(error: String?) = requireContext().toast(error.orEmpty())
 
     private fun onNavigation(navigation: Navigation?) {
         if (navigation == Navigation.AddJoke) {

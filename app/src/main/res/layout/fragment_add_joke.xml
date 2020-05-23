@@ -50,8 +50,6 @@
                 android:text="@string/save"
                 android:textColor="@color/colorPrimaryDark" />
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
 

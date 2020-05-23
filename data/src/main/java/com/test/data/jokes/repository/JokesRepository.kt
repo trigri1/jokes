@@ -1,9 +1,13 @@
 package com.test.data.jokes.repository
 
+import com.test.data.jokes.models.mapped.Joke
 import com.test.data.jokes.models.mapped.JokesModel
+import com.test.data.local.db.entities.UserJokeEntity
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface JokesRepository {
     fun getJokes(firstName: String? = null, lastName: String? = null): Single<JokesModel>
-    fun addJokes(joke: String)
+    fun getUserJokes(): Single<List<Joke>>
+    fun addJokes(joke: UserJokeEntity): Completable
 }
