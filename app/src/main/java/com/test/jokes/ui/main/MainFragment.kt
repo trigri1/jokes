@@ -83,6 +83,11 @@ class MainFragment : BaseFragment(), ShakeDetector.Listener {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getJokes()
+    }
+
     private fun detectShake() {
         val sensorManager =
             requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager?
@@ -95,6 +100,6 @@ class MainFragment : BaseFragment(), ShakeDetector.Listener {
     }
 
     override fun hearShake() {
-        viewModel.getJokes()
+        viewModel.getJokes(refresh = true)
     }
 }

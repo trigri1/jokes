@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.squareup.seismic.ShakeDetector
+import com.test.data.offline.model.CharacterName
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
 import com.test.jokes.utils.observe
-import com.test.jokes.utils.toast
-import kotlinx.android.synthetic.main.fragment_settins.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
 
 
@@ -28,7 +28,7 @@ class SettingsFragment : BaseFragment(), ShakeDetector.Listener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_settins, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,16 +39,33 @@ class SettingsFragment : BaseFragment(), ShakeDetector.Listener {
         detectShake()
     }
 
+    override fun onDestroyView() {
+        viewModel.setCharacterName(et_first_name.text.toString(), et_last_name.text.toString())
+        super.onDestroyView()
+    }
+
+    override fun hearShake() {
+        val newState = switch_offline?.isChecked?.not() ?: false
+        switch_offline?.isChecked = newState
+    }
+
     private fun observerViewModel() {
         with(viewModel) {
+            observe(characterName, ::onCharacterName)
             observe(offlineMode, ::onOfflineMode)
         }
     }
 
     private fun setListeners() {
         switch_offline.setOnCheckedChangeListener { _, isChecked ->
-            requireContext().toast(isChecked.toString())
             viewModel.onOfflineModeChanged(isChecked)
+        }
+    }
+
+    private fun onCharacterName(characterName: CharacterName?) {
+        characterName?.let {
+            et_first_name.setText(it.firstName)
+            et_last_name.setText(it.lastName)
         }
     }
 
@@ -60,11 +77,6 @@ class SettingsFragment : BaseFragment(), ShakeDetector.Listener {
         val sensorManager = requireContext().getSystemService(SENSOR_SERVICE) as SensorManager?
         val sd = ShakeDetector(this)
         sd.start(sensorManager)
-    }
-
-    override fun hearShake() {
-        val newState = switch_offline?.isChecked?.not() ?: false
-        switch_offline?.isChecked = newState
     }
 
     private fun getViewModel() {

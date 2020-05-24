@@ -1,10 +1,10 @@
 package com.test.jokes.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.data.base.model.MappedList
 import com.test.data.jokes.models.mapped.Joke
-import com.test.data.jokes.models.mapped.JokesModel
 import com.test.data.jokes.usecase.AddJokeUseCase
 import com.test.data.jokes.usecase.DeleteJokeByIdUseCase
 import com.test.data.jokes.usecase.GetJokesUseCase
@@ -34,12 +34,6 @@ class MainFragViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private lateinit var userJokesModel: JokesModel
-
-    init {
-        getJokes()
-    }
-
     fun onLikeClicked(jokeModel: Joke) {
         addJokeUseCase.complete(AddJokeUseCase.Args(jokeModel.joke, jokeModel.id))
             .subscribeOn(schedulerProvider.io())
@@ -60,13 +54,15 @@ class MainFragViewModel @Inject constructor(
         _share.postValue(joke)
     }
 
-    fun getJokes() {
-        val userJokes = getUserJokesUseCase.get()
-        val jokesObservable = getJokesUseCase.get(GetJokesUseCase.Args()).toObservable()
-        userJokes.zipWith(jokesObservable.map { jokesModel -> jokesModel.value },
+    fun getJokes(refresh: Boolean = false) {
+        val userJokesObservable = getUserJokesUseCase.get()
+        val jokesObservable = getJokesUseCase.get(GetJokesUseCase.Args(refresh)).toObservable()
+
+        userJokesObservable.zipWith(jokesObservable.map { jokesModel -> jokesModel.list },
             BiFunction { userJokesList: MappedList<Joke>, jokesList: List<Joke> ->
                 return@BiFunction associateUserLikedJokes(userJokesList.list, jokesList)
-            }).subscribeOn(schedulerProvider.io())
+            })
+            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe { _loading.postValue(true) }
             .doFinally { _loading.postValue(false) }
@@ -84,7 +80,6 @@ class MainFragViewModel @Inject constructor(
                 joke.likedId = userJokesMap[joke.id]?.likedId ?: -1
             }
         }
-
         return jokes
     }
 }

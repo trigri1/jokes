@@ -18,4 +18,7 @@ interface JokesDao {
 
     @Insert(onConflict = REPLACE)
     fun insert(jokeEntity: JokeEntity): Completable
+
+    @Insert(onConflict = REPLACE)
+    fun insert(jokeEntity: List<JokeEntity>): Completable
 }

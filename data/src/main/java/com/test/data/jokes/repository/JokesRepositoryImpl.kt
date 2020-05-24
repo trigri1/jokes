@@ -1,12 +1,16 @@
 package com.test.data.jokes.repository
 
+import android.util.Log
 import com.test.data.jokes.client.ApiClient
 import com.test.data.jokes.client.SUCCESS
 import com.test.data.jokes.models.mapped.Joke
-import com.test.data.jokes.models.mapped.JokesModel
+import com.test.data.jokes.models.response.JokeResponse
 import com.test.data.local.db.AppDataBase
+import com.test.data.local.db.entities.JokeEntity
 import com.test.data.local.db.entities.UserJokeEntity
 import com.test.data.local.prefs.PrefsHelper
+import com.test.data.offline.repository.FIRST_NAME
+import com.test.data.offline.repository.LAST_NAME
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -20,8 +24,16 @@ class JokesRepositoryImpl @Inject constructor(
     private val prefsHelper: PrefsHelper
 ) : JokesRepository {
 
-    override fun getJokesList(firstName: String?, lastName: String?): Single<JokesModel> {
-        return getJokes()
+    override fun getJokesList(
+        refresh: Boolean,
+        firstName: String?,
+        lastName: String?
+    ): Single<List<Joke>> {
+        return getJokes(refresh)
+    }
+
+    override fun getRandomJoke(firstName: String?, lastName: String?): Single<List<Joke>> {
+        return getRandomJokeFromDb(firstName, lastName)
     }
 
     override fun getUserJokes(): Observable<List<Joke>> {
@@ -49,27 +61,66 @@ class JokesRepositoryImpl @Inject constructor(
         return database.getUserJokesDao().deleteById(id)
     }
 
-    private fun getJokes(): Single<JokesModel> {
-        return if (prefsHelper.offlineModeEnabled) {
-            getRandomJokeFromDb()
-        } else {
-            getJokesFromServer()
-        }
-    }
-
-    private fun getRandomJokeFromDb(): Single<JokesModel> {
+    private fun getRandomJokeFromDb(firstName: String?, lastName: String?): Single<List<Joke>> {
         return database.getUserJokesDao().getRandomJoke().flatMap {
-            Single.just(JokesModel(SUCCESS, listOf(it.map())))
+            val newJoke = getReplacedJoke(it, firstName.orEmpty(), lastName.orEmpty())
+            Single.just(listOf(newJoke))
         }
     }
 
-    private fun getJokesFromServer(): Single<JokesModel> {
+    private fun getReplacedJoke(
+        userJoke: UserJokeEntity, firstName: String, lastName: String
+    ): Joke {
+        return with(userJoke) {
+            val isNameEmpty = firstName.isEmpty() || lastName.isEmpty()
+            val newJoke = if (isNameEmpty.not()) {
+                val firstNameReplaced = joke.orEmpty().replace(FIRST_NAME, firstName)
+                firstNameReplaced.replace(LAST_NAME, lastName)
+            } else {
+                joke.orEmpty()
+            }
+            Joke(id.toLong(), newJoke, likedId)
+        }
+    }
+
+    private fun getJokes(refresh: Boolean): Single<List<Joke>> {
+        return if (refresh) {
+            getJokesFromServer()
+        } else {
+            getPersistedJokesData().flatMap {
+                if (it.isNullOrEmpty()) {
+                    getJokesFromServer()
+                } else {
+                    Single.just(it)
+                }
+            }
+        }
+    }
+
+    private fun getJokesFromServer(): Single<List<Joke>> {
         return apiClient.getJokes()
             .map {
                 if (SUCCESS != it.type) {
                     throw  RuntimeException("Could not retrieve Jokes")
                 }
-                it.map()
+                persistJokesData(it.value)
+                it.map().value
             }
+    }
+
+    private fun getPersistedJokesData(): Single<List<Joke>> {
+        return database.getJokesDao().getAllJokes().map {
+            it.map { jokeEntity ->
+                jokeEntity.map()
+            }
+        }
+    }
+
+    private fun persistJokesData(jokesResponseList: List<JokeResponse>?) {
+        jokesResponseList?.map {
+            JokeEntity(it.id ?: 0L, it.joke)
+        }?.let { list ->
+            database.getJokesDao().insert(list).subscribe().dispose()
+        }
     }
 }

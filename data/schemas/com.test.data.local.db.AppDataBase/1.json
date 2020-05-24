@@ -2,28 +2,22 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3f64cba1d7bfc590670eff5cf967b358",
+    "identityHash": "f0482e511e43e1c145981746de8a48d7",
     "entities": [
       {
         "tableName": "jokes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `joke` TEXT, `liked` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `joke` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "joke",
             "columnName": "joke",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "likes",
-            "columnName": "liked",
-            "affinity": "INTEGER",
             "notNull": false
           }
         ],
@@ -72,7 +66,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3f64cba1d7bfc590670eff5cf967b358')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f0482e511e43e1c145981746de8a48d7')"
     ]
   }
 }

@@ -14,7 +14,4 @@ interface ApiClient {
         @Query("firstName") firstName: String? = null,
         @Query("lastName") lastName: String? = null
     ): Single<JokesResponseModel>
-
-//    @GET("android/latest")
-//    fun getCurrencyRates(@Query("base") baseCurrency: String): Observable<CurrencyRatesResponseModel>
 }
