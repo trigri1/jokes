@@ -2,4 +2,4 @@ package com.test.data.jokes.models.mapped
 
 import com.test.data.base.model.MappedModel
 
-data class Joke(val id: Long, val joke: String, var liked: Boolean = false) : MappedModel()
+data class Joke(val id: Long, val joke: String, var likedId: Long = -1) : MappedModel()

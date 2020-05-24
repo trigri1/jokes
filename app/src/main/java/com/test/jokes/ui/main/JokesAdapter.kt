@@ -47,7 +47,7 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
         private fun setupView(model: Joke) {
             with(itemView) {
                 tv_joke.text = model.joke
-                val likeStr = if (model.liked) {
+                val likeStr = if (model.likedId > -1) {
                     R.string.str_un_like
                 } else {
                     R.string.str_like

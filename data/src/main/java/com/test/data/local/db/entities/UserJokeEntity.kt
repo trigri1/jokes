@@ -22,6 +22,6 @@ data class UserJokeEntity(
     val joke: String?
 ) : ResponseModel() {
     override fun map(): Joke {
-        return Joke(likedId, joke.orEmpty())
+        return Joke(id.toLong(), joke.orEmpty(), likedId)
     }
 }

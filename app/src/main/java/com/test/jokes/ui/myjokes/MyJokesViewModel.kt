@@ -33,7 +33,7 @@ class MyJokesViewModel @Inject constructor(
     }
 
     fun onDeleteJokeClicked(joke: Joke) {
-        deleteJokeUseCase.complete(DeleteJokeUseCase.Args(joke.id, joke.joke))
+        deleteJokeUseCase.complete(DeleteJokeUseCase.Args(joke.id))
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe()

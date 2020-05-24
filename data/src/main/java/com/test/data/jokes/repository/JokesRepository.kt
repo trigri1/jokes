@@ -12,5 +12,6 @@ interface JokesRepository {
     fun getUserJokes(): Observable<List<Joke>>
     fun addJoke(joke: UserJokeEntity): Completable
     fun deleteJoke(joke: UserJokeEntity): Completable
+    fun deleteJokeByLikedId(id: Long): Completable
     fun deleteJokeById(id: Long): Completable
 }

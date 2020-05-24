@@ -10,7 +10,7 @@ class DeleteJokeByIdUseCase @Inject constructor(private val repository: JokesRep
     CompletableUseCase<DeleteJokeByIdUseCase.Args> {
 
     override fun complete(args: Args): Completable {
-        return repository.deleteJokeById(args.id)
+        return repository.deleteJokeByLikedId(args.id)
     }
 
     data class Args(val id: Long) : UseCase.Args()

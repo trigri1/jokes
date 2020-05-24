@@ -1,6 +1,8 @@
 package com.test.jokes.ui.main
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.squareup.seismic.ShakeDetector
 import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
@@ -18,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
 
-class MainFragment : BaseFragment() {
+class MainFragment : BaseFragment(), ShakeDetector.Listener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -44,6 +47,7 @@ class MainFragment : BaseFragment() {
     private fun setupView() {
         rc_jokes.adapter = jokesAdapter
         rc_jokes.itemAnimator = DefaultItemAnimator()
+        detectShake()
     }
 
     private fun observerViewModel() {
@@ -73,21 +77,24 @@ class MainFragment : BaseFragment() {
 
     private fun setListeners() {
         jokesAdapter.setListener(object : JokesAdapter.Listener {
-            override fun onLikeClicked(joke: Joke) {
-                viewModel.onLikeClicked(joke)
-            }
-
-            override fun onUnLikeClicked(id: Long) {
-                viewModel.onUnLikeJokeClicked(id)
-            }
-
-            override fun onShareClicked(joke: String) {
-                viewModel.onShareClicked(joke)
-            }
+            override fun onLikeClicked(joke: Joke) = viewModel.onLikeClicked(joke)
+            override fun onUnLikeClicked(id: Long) = viewModel.onUnLikeJokeClicked(id)
+            override fun onShareClicked(joke: String) = viewModel.onShareClicked(joke)
         })
+    }
+
+    private fun detectShake() {
+        val sensorManager =
+            requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager?
+        val sd = ShakeDetector(this)
+        sd.start(sensorManager)
     }
 
     private fun getViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainFragViewModel::class.java)
+    }
+
+    override fun hearShake() {
+        viewModel.getJokes()
     }
 }

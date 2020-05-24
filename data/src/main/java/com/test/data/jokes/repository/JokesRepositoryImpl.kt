@@ -33,8 +33,8 @@ class JokesRepositoryImpl @Inject constructor(
     override fun getUserJokes(): Observable<List<Joke>> {
         return database.getUserJokesDao().getAllUserJokes()
             .map {
-                it.map { userJoke ->
-                    userJoke.map()
+                it.map { userJokes ->
+                    userJokes.map()
                 }
             }
     }
@@ -45,6 +45,10 @@ class JokesRepositoryImpl @Inject constructor(
 
     override fun deleteJoke(joke: UserJokeEntity): Completable {
         return database.getUserJokesDao().delete(joke)
+    }
+
+    override fun deleteJokeByLikedId(id: Long): Completable {
+        return database.getUserJokesDao().deleteByLikedId(id)
     }
 
     override fun deleteJokeById(id: Long): Completable {

@@ -60,7 +60,7 @@ class MainFragViewModel @Inject constructor(
         _share.postValue(joke)
     }
 
-    private fun getJokes() {
+    fun getJokes() {
         val userJokes = getUserJokesUseCase.get()
         val jokesObservable = getJokesUseCase.get(GetJokesUseCase.Args()).toObservable()
         userJokes.zipWith(jokesObservable.map { jokesModel -> jokesModel.value },
@@ -78,10 +78,10 @@ class MainFragViewModel @Inject constructor(
     }
 
     private fun associateUserLikedJokes(userJokes: List<Joke>, jokes: List<Joke>): List<Joke> {
-        val jokesMap = userJokes.map { it.id to it }.toMap()
+        val userJokesMap = userJokes.map { it.likedId to it }.toMap()
         jokes.forEach { joke ->
-            if (jokesMap.containsKey(joke.id)) {
-                joke.liked = true
+            if (userJokesMap.containsKey(joke.id)) {
+                joke.likedId = userJokesMap[joke.id]?.likedId ?: -1
             }
         }
 
