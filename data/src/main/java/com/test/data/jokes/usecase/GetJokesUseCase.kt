@@ -10,7 +10,7 @@ class GetJokesUseCase @Inject constructor(private val jokesRepository: JokesRepo
     UseCase<GetJokesUseCase.Args, JokesModel> {
 
     override fun get(args: Args): Single<JokesModel> {
-        return jokesRepository.getJokes(args.firstName, args.lastName)
+        return jokesRepository.getJokesList(args.firstName, args.lastName)
     }
 
     data class Args(val firstName: String = "Chuck", val lastName: String = "Norris") :

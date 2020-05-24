@@ -20,14 +20,8 @@ class JokesRepositoryImpl @Inject constructor(
     private val prefsHelper: PrefsHelper
 ) : JokesRepository {
 
-    override fun getJokes(firstName: String?, lastName: String?): Single<JokesModel> {
-        return apiClient.getJokes()
-            .map {
-                if (SUCCESS != it.type) {
-                    throw  RuntimeException("Could not retrieve Jokes")
-                }
-                it.map()
-            }
+    override fun getJokesList(firstName: String?, lastName: String?): Single<JokesModel> {
+        return getJokes()
     }
 
     override fun getUserJokes(): Observable<List<Joke>> {
@@ -53,5 +47,29 @@ class JokesRepositoryImpl @Inject constructor(
 
     override fun deleteJokeById(id: Long): Completable {
         return database.getUserJokesDao().deleteById(id)
+    }
+
+    private fun getJokes(): Single<JokesModel> {
+        return if (prefsHelper.offlineModeEnabled) {
+            getRandomJokeFromDb()
+        } else {
+            getJokesFromServer()
+        }
+    }
+
+    private fun getRandomJokeFromDb(): Single<JokesModel> {
+        return database.getUserJokesDao().getRandomJoke().flatMap {
+            Single.just(JokesModel(SUCCESS, listOf(it.map())))
+        }
+    }
+
+    private fun getJokesFromServer(): Single<JokesModel> {
+        return apiClient.getJokes()
+            .map {
+                if (SUCCESS != it.type) {
+                    throw  RuntimeException("Could not retrieve Jokes")
+                }
+                it.map()
+            }
     }
 }
