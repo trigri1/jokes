@@ -41,3 +41,5 @@ fun Activity.hideKeyboard() {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
 }
+
+fun <T> List<T>.validIndex(index: Int): Boolean = index in 0 until size

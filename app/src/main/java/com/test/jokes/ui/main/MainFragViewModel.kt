@@ -2,24 +2,28 @@ package com.test.jokes.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.test.data.base.model.MappedList
 import com.test.data.jokes.models.mapped.Joke
 import com.test.data.jokes.models.mapped.JokesModel
 import com.test.data.jokes.usecase.AddJokeUseCase
 import com.test.data.jokes.usecase.DeleteJokeByIdUseCase
 import com.test.data.jokes.usecase.GetJokesUseCase
+import com.test.data.jokes.usecase.GetUserJokesUseCase
 import com.test.data.rx.SchedulerProvider
 import com.test.jokes.ui.base.BaseViewModel
+import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
 class MainFragViewModel @Inject constructor(
     private val getJokesUseCase: GetJokesUseCase,
+    private val getUserJokesUseCase: GetUserJokesUseCase,
     private val addJokeUseCase: AddJokeUseCase,
     private val deleteJokeByIdUseCase: DeleteJokeByIdUseCase,
     schedulerProvider: SchedulerProvider
 ) : BaseViewModel(schedulerProvider) {
 
-    private val _jokesItem = MutableLiveData<JokesModel>()
-    val jokesItem: LiveData<JokesModel> = _jokesItem
+    private val _jokesItem = MutableLiveData<List<Joke>>()
+    val jokesItem: LiveData<List<Joke>> = _jokesItem
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -30,7 +34,7 @@ class MainFragViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private lateinit var jokesModel: JokesModel
+    private lateinit var userJokesModel: JokesModel
 
     init {
         getJokes()
@@ -57,8 +61,12 @@ class MainFragViewModel @Inject constructor(
     }
 
     private fun getJokes() {
-        getJokesUseCase.get(GetJokesUseCase.Args())
-            .subscribeOn(schedulerProvider.io())
+        val userJokes = getUserJokesUseCase.get()
+        val jokesObservable = getJokesUseCase.get(GetJokesUseCase.Args()).toObservable()
+        userJokes.zipWith(jokesObservable.map { jokesModel -> jokesModel.value },
+            BiFunction { userJokesList: MappedList<Joke>, jokesList: List<Joke> ->
+                return@BiFunction associateUserLikedJokes(userJokesList.list, jokesList)
+            }).subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe { _loading.postValue(true) }
             .doFinally { _loading.postValue(false) }
@@ -67,5 +75,16 @@ class MainFragViewModel @Inject constructor(
             }, { throwable ->
                 _error.postValue(getError(throwable))
             }).addToDisposable()
+    }
+
+    private fun associateUserLikedJokes(userJokes: List<Joke>, jokes: List<Joke>): List<Joke> {
+        val jokesMap = userJokes.map { it.id to it }.toMap()
+        jokes.forEach { joke ->
+            if (jokesMap.containsKey(joke.id)) {
+                joke.liked = true
+            }
+        }
+
+        return jokes
     }
 }

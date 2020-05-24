@@ -16,12 +16,12 @@ data class UserJokeEntity(
     val id: Int = 0,
 
     @ColumnInfo(name = "liked_id")
-    val likedId: Long = 0,
+    val likedId: Long = -1,
 
     @ColumnInfo(name = "joke")
     val joke: String?
 ) : ResponseModel() {
     override fun map(): Joke {
-        return Joke(id.toLong(), joke.orEmpty())
+        return Joke(likedId, joke.orEmpty())
     }
 }

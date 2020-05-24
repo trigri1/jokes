@@ -45,7 +45,15 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
         }
 
         private fun setupView(model: Joke) {
-            itemView.tv_joke.text = model.joke
+            with(itemView) {
+                tv_joke.text = model.joke
+                val likeStr = if (model.liked) {
+                    R.string.str_un_like
+                } else {
+                    R.string.str_like
+                }
+                tv_like.text = context.getString(likeStr)
+            }
         }
 
         private fun setListeners() {

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.test.data.jokes.models.mapped.Joke
-import com.test.data.jokes.models.mapped.JokesModel
 import com.test.jokes.R
 import com.test.jokes.ui.base.BaseFragment
 import com.test.jokes.utils.observe
@@ -56,9 +55,9 @@ class MainFragment : BaseFragment() {
         }
     }
 
-    private fun onJokesItem(jokesRateModel: JokesModel?) {
+    private fun onJokesItem(jokesRateModel: List<Joke>?) {
         jokesRateModel?.let {
-            jokesAdapter.updateList(it.value)
+            jokesAdapter.updateList(it)
         }
     }
 

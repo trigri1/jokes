@@ -2,7 +2,7 @@
     <string name="app_name">Jokes</string>
     <string name="str_share">Share</string>
     <string name="str_like">Like</string>
-    <string name="str_un_like">UnLike</string>
+    <string name="str_un_like">Liked</string>
     <string name="add_joke">Add Joke</string>
     <string name="home">Home</string>
     <string name="my_jokes">My Jokes</string>
