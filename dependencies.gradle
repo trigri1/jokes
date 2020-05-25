@@ -1,6 +1,6 @@
 ext {
     //project
-    androidMinSdkVersion = 19
+    androidMinSdkVersion = 21
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 29
     androidVersionCode = 1
