@@ -15,5 +15,6 @@ class AddJokeUseCase @Inject constructor(private val repository: JokesRepository
         return repository.addJoke(joke)
     }
 
-    data class Args(val joke: String, val likedId: Long = 0) : UseCase.Args()
+    data class Args(val joke: String, val likedId: Long = 0) :
+        UseCase.Args()
 }

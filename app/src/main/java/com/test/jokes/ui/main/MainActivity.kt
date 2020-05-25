@@ -36,8 +36,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupDrawer() {
-        setActionBar()
         setNavigationView()
+        setActionBar()
         setupDrawerToggle()
     }
 
@@ -49,20 +49,28 @@ class MainActivity : BaseActivity() {
     private fun setNavigationView() {
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
         nav_view.setupWithNavController(navController)
+        nav_view.setCheckedItem(R.id.mainFragment)
         nav_view.setNavigationItemSelectedListener { menuItem ->
             drawer_layout.closeDrawers()
-            if (selectedFragment == menuItem.itemId) {
-                false
-            } else {
+            if (selectedFragment != menuItem.itemId) {
                 selectedFragment = menuItem.itemId
-                menuItem.isChecked = true
                 when (selectedFragment) {
-                    R.id.menu_fragment_main -> navController.navigate(R.id.mainFragment)
-                    R.id.menu_fragment_my_jokes -> navController.navigate(R.id.myJokesFragment)
-                    R.id.menu_fragment_setting -> navController.navigate(R.id.settingsFragment)
+                    R.id.menu_fragment_jokes_list -> {
+                        toolbar.title = getString(R.string.jokes_title)
+                        navController.navigate(R.id.mainFragment)
+                    }
+                    R.id.menu_fragment_my_jokes -> {
+                        toolbar.title = getString(R.string.my_list_title)
+                        navController.navigate(R.id.myJokesFragment)
+                    }
+                    R.id.menu_fragment_setting -> {
+                        toolbar.title = getString(R.string.settings_title)
+                        navController.navigate(R.id.settingsFragment)
+                    }
                 }
-                true
             }
+            menuItem.isChecked = true
+            true
         }
     }
 

@@ -1,6 +1,6 @@
 package com.test.jokes.di.module
 
-import com.test.jokes.ui.main.MainFragment
+import com.test.jokes.ui.jokeslist.JokesListFragment
 import com.test.jokes.ui.myjokes.MyJokesFragment
 import com.test.jokes.ui.myjokes.addjoke.AddJokeFragment
 import com.test.jokes.ui.settings.SettingsFragment
@@ -12,7 +12,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeMainFragment(): MainFragment
+    abstract fun contributeMainFragment(): JokesListFragment
 
     @ContributesAndroidInjector
     abstract fun contributeMyJokesFragment(): MyJokesFragment

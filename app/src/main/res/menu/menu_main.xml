@@ -5,7 +5,7 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_fragment_main"
+            android:id="@+id/menu_fragment_jokes_list"
             android:checked="true"
             android:title="@string/home" />
         <item
@@ -15,8 +15,8 @@
     </group>
 
     <group
-        android:id="@+id/menu_settins"
-        android:checkableBehavior="none">
+        android:id="@+id/menu_settings"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/menu_fragment_setting"
             android:title="@string/settings" />

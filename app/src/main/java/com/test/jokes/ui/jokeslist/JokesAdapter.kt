@@ -1,4 +1,4 @@
-package com.test.jokes.ui.main
+package com.test.jokes.ui.jokeslist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
+import com.test.jokes.utils.show
 import kotlinx.android.synthetic.main.item_joke.view.*
 
 
@@ -16,7 +17,12 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
     private var listener: Listener? = null
 
     fun updateList(list: List<Joke>) {
-        val diffResult = DiffUtil.calculateDiff(JokesDiffCallback(jokesItemList, list))
+        val diffResult = DiffUtil.calculateDiff(
+            JokesDiffCallback(
+                jokesItemList,
+                list
+            )
+        )
         diffResult.dispatchUpdatesTo(this)
         jokesItemList = list
     }
@@ -25,14 +31,14 @@ class JokesAdapter : RecyclerView.Adapter<JokesAdapter.ViewHolder>() {
         this.listener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokesAdapter.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_joke, parent, false
             )
         )
 
-    override fun onBindViewHolder(holder: JokesAdapter.ViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bindData(jokesItemList[position])
 
     override fun getItemCount(): Int = jokesItemList.size

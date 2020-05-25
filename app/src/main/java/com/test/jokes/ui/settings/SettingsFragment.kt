@@ -45,8 +45,11 @@ class SettingsFragment : BaseFragment(), ShakeDetector.Listener {
     }
 
     override fun hearShake() {
-        val newState = switch_offline?.isChecked?.not() ?: false
-        switch_offline?.isChecked = newState
+        if (isAdded) {
+            val newState = switch_offline?.isChecked?.not() ?: false
+            switch_offline?.isChecked = newState
+            viewModel.onDeviceShake(newState)
+        }
     }
 
     private fun observerViewModel() {

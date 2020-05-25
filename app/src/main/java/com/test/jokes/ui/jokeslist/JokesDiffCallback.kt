@@ -1,4 +1,4 @@
-package com.test.jokes.ui.main
+package com.test.jokes.ui.jokeslist
 
 import androidx.recyclerview.widget.DiffUtil
 import com.test.data.jokes.models.mapped.Joke

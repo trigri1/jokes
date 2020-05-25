@@ -1,12 +1,11 @@
-package com.test.jokes.ui.main
+package com.test.jokes.ui.jokeslist
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.data.base.model.MappedList
 import com.test.data.jokes.models.mapped.Joke
 import com.test.data.jokes.usecase.AddJokeUseCase
-import com.test.data.jokes.usecase.DeleteJokeByIdUseCase
+import com.test.data.jokes.usecase.DeleteJokeByIdLikedUseCase
 import com.test.data.jokes.usecase.GetJokesUseCase
 import com.test.data.jokes.usecase.GetUserJokesUseCase
 import com.test.data.rx.SchedulerProvider
@@ -14,11 +13,11 @@ import com.test.jokes.ui.base.BaseViewModel
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
 
-class MainFragViewModel @Inject constructor(
+class JokesListViewModel @Inject constructor(
     private val getJokesUseCase: GetJokesUseCase,
     private val getUserJokesUseCase: GetUserJokesUseCase,
     private val addJokeUseCase: AddJokeUseCase,
-    private val deleteJokeByIdUseCase: DeleteJokeByIdUseCase,
+    private val deleteJokeByIdLikedUseCase: DeleteJokeByIdLikedUseCase,
     schedulerProvider: SchedulerProvider
 ) : BaseViewModel(schedulerProvider) {
 
@@ -43,16 +42,15 @@ class MainFragViewModel @Inject constructor(
     }
 
     fun onUnLikeJokeClicked(id: Long) {
-        deleteJokeByIdUseCase.complete(DeleteJokeByIdUseCase.Args(id))
+        deleteJokeByIdLikedUseCase.complete(DeleteJokeByIdLikedUseCase.Args(id))
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe()
             .addToDisposable()
     }
 
-    fun onShareClicked(joke: String) {
-        _share.postValue(joke)
-    }
+    fun onShareClicked(joke: String) = _share.postValue(joke)
+    fun onDeviceShake(refresh: Boolean = true) = getJokes(refresh)
 
     fun getJokes(refresh: Boolean = false) {
         val userJokesObservable = getUserJokesUseCase.get()

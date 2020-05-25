@@ -1,4 +1,4 @@
-package com.test.jokes.ui.main
+package com.test.jokes.ui.jokeslist
 
 import android.content.Context
 import android.content.Intent
@@ -21,11 +21,11 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
 
-class MainFragment : BaseFragment(), ShakeDetector.Listener {
+class JokesListFragment : BaseFragment(), ShakeDetector.Listener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: MainFragViewModel
+    private lateinit var viewModel: JokesListViewModel
 
     private val jokesAdapter = JokesAdapter()
 
@@ -42,6 +42,12 @@ class MainFragment : BaseFragment(), ShakeDetector.Listener {
         setListeners()
         observerViewModel()
         setupView()
+    }
+
+    override fun hearShake() {
+        if (isAdded) {
+            viewModel.onDeviceShake(refresh = true)
+        }
     }
 
     private fun setupView() {
@@ -76,7 +82,8 @@ class MainFragment : BaseFragment(), ShakeDetector.Listener {
     }
 
     private fun setListeners() {
-        jokesAdapter.setListener(object : JokesAdapter.Listener {
+        jokesAdapter.setListener(object :
+            JokesAdapter.Listener {
             override fun onLikeClicked(joke: Joke) = viewModel.onLikeClicked(joke)
             override fun onUnLikeClicked(id: Long) = viewModel.onUnLikeJokeClicked(id)
             override fun onShareClicked(joke: String) = viewModel.onShareClicked(joke)
@@ -96,10 +103,7 @@ class MainFragment : BaseFragment(), ShakeDetector.Listener {
     }
 
     private fun getViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainFragViewModel::class.java)
-    }
-
-    override fun hearShake() {
-        viewModel.getJokes(refresh = true)
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(JokesListViewModel::class.java)
     }
 }

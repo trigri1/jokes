@@ -14,8 +14,8 @@ class GetJokesListUseCase @Inject constructor(private val jokesRepository: Jokes
 
     override fun get(args: Args): Single<MappedList<Joke>> {
         return jokesRepository.getJokesList(args.refresh, args.firstName, args.lastName)
-            .map {
-                MappedList(it)
+            .map {list->
+                MappedList(list)
             }
     }
 

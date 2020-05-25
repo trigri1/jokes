@@ -2,7 +2,6 @@ package com.test.jokes.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.test.data.jokes.usecase.GetJokesListUseCase
 import com.test.data.offline.model.CharacterName
 import com.test.data.offline.usecase.GetCharacterNameUseCase
 import com.test.data.offline.usecase.GetOfflineModeStateUseCase
@@ -46,6 +45,10 @@ class SettingsViewModel @Inject constructor(
             .observeOn(schedulerProvider.ui())
             .subscribe()
             .addToDisposable()
+    }
+
+    fun onDeviceShake(offlineMode: Boolean) {
+        onOfflineModeChanged(offlineMode)
     }
 
     private fun getCharacterName() {

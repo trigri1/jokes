@@ -10,6 +10,6 @@ data class JokeResponse(
     val joke: String? = null,
     val categories: List<String?>? = null
 ) : ResponseModel() {
-    override fun map(): Joke = Joke(id ?: 0L, joke ?: "")
+    override fun map(): Joke = Joke(id ?: 0L, joke.orEmpty())
 
 }

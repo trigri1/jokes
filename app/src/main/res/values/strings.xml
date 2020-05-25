@@ -13,4 +13,7 @@
     <string name="first_name">Character First Name</string>
     <string name="last_name">Character Last Name</string>
     <string name="offline_mode">Offline Mode</string>
+    <string name="jokes_title">Chuck Jokes</string>
+    <string name="my_list_title">My Jokes</string>
+    <string name="settings_title">Settings</string>
 </resources>

@@ -2,7 +2,7 @@ package com.test.jokes.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.test.jokes.ui.main.MainFragViewModel
+import com.test.jokes.ui.jokeslist.JokesListViewModel
 import com.test.jokes.ui.main.MainViewModel
 import com.test.jokes.ui.myjokes.MyJokesViewModel
 import com.test.jokes.ui.myjokes.addjoke.AddJokeViewModel
@@ -21,8 +21,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainFragViewModel::class)
-    abstract fun bindMainFragViewModel(mainFragViewModel: MainFragViewModel): ViewModel
+    @ViewModelKey(JokesListViewModel::class)
+    abstract fun bindMainFragViewModel(jokesListViewModel: JokesListViewModel): ViewModel
 
     @Binds
     @IntoMap

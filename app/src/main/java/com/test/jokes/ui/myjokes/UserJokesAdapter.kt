@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.test.data.jokes.models.mapped.Joke
 import com.test.jokes.R
-import com.test.jokes.ui.main.JokesDiffCallback
+import com.test.jokes.ui.jokeslist.JokesDiffCallback
 import kotlinx.android.synthetic.main.item_user_joke.view.*
 
 
@@ -17,7 +17,12 @@ class UserJokesAdapter : RecyclerView.Adapter<UserJokesAdapter.ViewHolder>() {
     private var listener: Listener? = null
 
     fun updateList(list: List<Joke>) {
-        val diffResult = DiffUtil.calculateDiff(JokesDiffCallback(jokesList, list))
+        val diffResult = DiffUtil.calculateDiff(
+            JokesDiffCallback(
+                jokesList,
+                list
+            )
+        )
         diffResult.dispatchUpdatesTo(this)
         jokesList = list
     }

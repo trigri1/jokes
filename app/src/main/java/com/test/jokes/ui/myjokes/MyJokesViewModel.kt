@@ -3,7 +3,7 @@ package com.test.jokes.ui.myjokes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.data.jokes.models.mapped.Joke
-import com.test.data.jokes.usecase.DeleteJokeUseCase
+import com.test.data.jokes.usecase.DeleteJokeByIdUseCase
 import com.test.data.jokes.usecase.GetUserJokesUseCase
 import com.test.data.rx.SchedulerProvider
 import com.test.jokes.ui.base.BaseViewModel
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class MyJokesViewModel @Inject constructor(
     private val getUserJokesUseCase: GetUserJokesUseCase,
-    private val deleteJokeUseCase: DeleteJokeUseCase,
+    private val deleteJokeByIdUseCase: DeleteJokeByIdUseCase,
     schedulerProvider: SchedulerProvider
 ) : BaseViewModel(schedulerProvider) {
 
@@ -33,7 +33,7 @@ class MyJokesViewModel @Inject constructor(
     }
 
     fun onDeleteJokeClicked(joke: Joke) {
-        deleteJokeUseCase.complete(DeleteJokeUseCase.Args(joke.id))
+        deleteJokeByIdUseCase.complete(DeleteJokeByIdUseCase.Args(joke.id))
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe()
