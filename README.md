@@ -54,7 +54,7 @@ This app has four screens.
 <img src="https://user-images.githubusercontent.com/45944138/82774913-cd773200-9e4e-11ea-9625-3c3b33086312.jpg" height="750" width="405">
 
 - Settings: 
-  - User can switch on/off the ofline mode 
+  - User can switch on/off the offline mode (by clicking on the switch and also by shaking device)
   - User can change the name of character that will replace default name when in offline mode on **Jokes List** screen
   - **data** persists user choices in SharedPreference
   
